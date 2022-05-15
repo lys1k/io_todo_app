@@ -1,0 +1,45 @@
+#!/bin/bash
+
+#
+# skrót od s(ign)in
+# [ bo in nie może być nazwą funkcji >:( ]
+#
+# wywołanie:           . in {username} {password}  	- loguje się odpowiednimi danymi.
+#
+# alt. wywołanie: source in {username} {password}	-          - || -
+#
+# ostatni poprawnie wyłuskany token jest zapisany w pliku "token" w formacie ASCII
+#
+# Q: *raczej* trzeba eksportować token.
+
+
+source scripts/funcs
+
+
+if [[ $# == "2" ]]; then
+	echo "{\"username\":\"$1\",\"password\":\"$2\"}" > "cache/credentials"
+	lwp-request -m post -b http://localhost:8080 -c application/json authentication/signin < "cache/credentials" > "cache/response"
+	# trzeba zmienic - github actions konczy dzialanie jesli kod wyjscia != 0
+	# normalnie by to nie mialo znaczenia, ale ten plik source'ujesz, i wykonanie tej komendy wiaze z wykonaniem calego programu
+	# chcesz sprawdzic, czy w cache/response znajduje sie wiadomosc error
+	# ponizsze zakomentowane, bo daje rady bez tego, a jest bardzo problematyczne, zwlaszcza dla github actions
+	# cat "cache/response" | grep "error" > /dev/null
+	# if [[ $? == 0 ]]; then
+		#rm -f "cache/error"
+		#save_value "status" "cache/error"
+		#save_value "message" "cache/error"
+		#rm -f "cache/response"
+		#cat "error"
+		# do zmiany, ze wzgledu na source'owanie
+		#exit 1 
+	#fi
+	rm -f "cache/token"
+	# response potrzebny do save_value
+	save_value "token" "cache/token"
+	rm -f "cache/response"
+	token=`cat "cache/token"`
+	#echo $token
+	export token
+else
+	echo "niepoprawne wywołanie"
+fi
