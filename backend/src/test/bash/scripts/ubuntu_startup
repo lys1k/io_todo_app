@@ -1,0 +1,14 @@
+#!/bin/bash
+
+#cd backend
+#cd /var/lib/postgresql/14
+sudo sed 's/peer/ident/' /etc/postgresql/14/main/pg_hba.conf > tmp
+sudo sed -i 's/local.*all.*postgres.*ident//' tmp
+sudo sed -i 's/scram-sha-256/ident/' tmp
+sudo rm -f /etc/postgresql/14/main/pg_hba.conf
+sudo cp tmp /etc/postgresql/14/main/pg_hba.conf
+sudo systemctl start postgresql
+sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'password';"
+sudo sed -i 's/ident/password/' /etc/postgresql/14/main/pg_hba.conf
+sudo systemctl restart postgresql
+#mvn package spring-boot:start

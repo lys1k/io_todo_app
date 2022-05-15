@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# plik pomocniczy.
+# save_value wyłuskuje z JSON'a znajdującego się w pliku "response" wartość dla pola podanego
+# w argumencie 1., po czym zapisuje ją do pliku podanego w argumencie 2.
+
+function save_value {
+	pattern=$1
+	file_nm=$2
+	cat "cache/response" | tr -d '{}\"' | tr , '\n' | grep $pattern | tr : '\n' | tail -n 1 >> $file_nm
+}

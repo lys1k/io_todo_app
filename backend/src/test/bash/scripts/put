@@ -1,0 +1,47 @@
+#!/bin/bash
+
+#
+# aktualizuje stan zadanie znajdującego się już w bazie.
+#
+# wywołanie:
+#
+# 			put check {id}			- oznacz zadanie o ID {id} jako wykonane; 
+#
+# 			put uncheck {id}		- oznacz zadanie o ID {id} jako niewykonane;
+#
+# 			put prev {id}			- oznacz zadanie czytane ze standardowego wejścia jako poprzednie do zadania o ID {id};
+#
+# 			put task {id}			- zaktualizuj zadanie o ID {id} czytane ze standardowego wejścia.
+#
+
+if [[ $1 == 'check' ]]; then
+	id=$2
+	#./get task $id | grep "\"finished\":false" > /dev/null
+	# potencjalne xrodlo bledow
+	get task $id | grep "\"finished\":false" > /dev/null
+	if [[ $? == 0 ]]; then
+		lwp-request -m put -b http://localhost:8080 -c application/json -f -H "Authorization: Bearer $token" task/$id/check < /dev/null > /dev/null
+	else
+		echo "zadanie jest już oznaczone jako wykonane"
+	fi
+
+elif [[ $1 == 'uncheck' ]]; then
+	id=$2
+	./get task $id | grep "\"finished\":true" > /dev/null
+	if [[ $? == 0 ]]; then
+		lwp-request -m put -b http://localhost:8080 -c application/json -f -H "Authorization: Bearer $token" task/$id/uncheck < /dev/null > /dev/null
+	else
+		echo "zadania jest już oznaczone jako niewykonane"
+	fi
+
+elif [[ $1 == 'prev' ]]; then
+	id=$2
+	#lwp-request -m put -b http://localhost:8080 -c application/json -H "Authorization: Bearer $token" task/$id/previous < task
+	lwp-request -m put -b http://localhost:8080 -c application/json -H "Authorization: Bearer $token" task/$id/previous
+else 
+	id=$2
+	#lwp-request -m put -b http://localhost:8080 -c application/json -H "Authorization: Bearer $token" task/$id < task
+	lwp-request -m put -b http://localhost:8080 -c application/json -H "Authorization: Bearer $token" task/$id
+fi
+
+exit 0
