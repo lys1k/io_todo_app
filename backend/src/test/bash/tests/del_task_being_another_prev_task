@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# przygotowanie testu
+name="mieszam"
+description="szpachle"
+post task $name $description > "response"
+id=`get id from file "response"`
+echo "{}" > "task"
+put prev $id < "task" > "snd_response"
+prev_id=`get prev id from file "snd_response"`
+
+# wlasciwy test
+del task $prev_id > "status"
+
+# ewentualny zapis do logow
+sts=`get status from file "status"`
+if [[ $sts ]]; then
+	error=`get error from file "status"`
+	echo $sts
+	echo $error
+fi
+
+# sprzatanie
+rm -f "response"
+rm -f "snd_response"
+rm -f "status"
+rm -f "task"

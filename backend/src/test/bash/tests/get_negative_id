@@ -1,0 +1,18 @@
+#!/bin/bash
+
+
+get task -1 > "response"
+
+sts=`get status from file "response"`
+if [[ $sts ]]; then
+	error=`get error from file "response"`
+	echo $sts
+	echo $error
+fi
+
+sts=`cat "response"`
+if [[ $sts != "Could not find task -1" ]]; then
+	echo $sts
+fi
+
+rm -f "response"

@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# przygotowanie testu
+name="mieszam"
+description="szpachle"
+post task $name $description > "response"
+id=`get id from file "response"`
+
+# wlasciwy test
+put prev $id < "response" > "status"
+
+# ewentualny zapis do logow
+sts=`get status from file "status"`
+if [[ $sts ]]; then
+	error=`get error from file "status"`
+	echo $sts
+	echo $error
+fi
+
+# sprzatanie
+rm -f "status"
+rm -f "response"
