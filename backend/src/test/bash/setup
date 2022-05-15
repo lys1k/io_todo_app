@@ -111,6 +111,7 @@ chmod u+x scripts/get
 chmod u+x sin
 chmod u+x scripts/put
 chmod u+x scripts/post
+chmod u+x scripts/init
 chmod u+x scripts/funcs
 chmod u+x scripts/tester
 chmod u+x scripts/ubuntu_startup
