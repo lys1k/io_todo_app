@@ -112,6 +112,14 @@ public class Task implements Completable {
     }
 
     public void setSubTasks(List<SubTask> subTasks) {
+        for (SubTask newSubTask : subTasks) {
+            for (SubTask oldSubTask : this.subTasks) {
+                if (newSubTask.getName().equals(oldSubTask.getName())) {
+                    newSubTask.setFinishedValue(oldSubTask.isFinished());
+                }
+            }
+        }
+
         this.subTasks.retainAll(subTasks);
         this.subTasks.addAll(subTasks);
         for (SubTask subTask : this.subTasks) {

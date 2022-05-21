@@ -1,10 +1,7 @@
 package application.model.tasks;
 
 import application.Commons;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 
@@ -16,7 +13,6 @@ public class SubTask implements Completable {
     private Long id;
 
     private String name;
-    private String description;
     private boolean isFinished;
 
     @ManyToOne
@@ -27,16 +23,11 @@ public class SubTask implements Completable {
     public SubTask() {
     }
 
-    public SubTask(Long id, String name, String description, Task mainTask) {
+    public SubTask(Long id, String name, Task mainTask) {
         this.id = id;
         this.name = name;
-        this.description = description;
         this.mainTask = mainTask;
         this.isFinished = false;
-    }
-
-    public SubTask(Long id, String name, Task mainTask) {
-        this(id, name, "no description", mainTask);
     }
 
     public Long getId() {
@@ -49,14 +40,6 @@ public class SubTask implements Completable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public void setMainTask(Task mainTask) {
@@ -76,6 +59,10 @@ public class SubTask implements Completable {
     @Override
     public void setUnfinished() {
         isFinished = false;
+    }
+
+    public void setFinishedValue(boolean value) {
+        isFinished = value;
     }
 
     public Task getMainTask() {
