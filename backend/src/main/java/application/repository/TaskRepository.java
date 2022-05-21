@@ -18,4 +18,3 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     @Query("from Task task join task.tags tag where tag.tagName = :tagName")
     List<Task> getTasksByTagName(String tagName);
 }
-

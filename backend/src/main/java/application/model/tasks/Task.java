@@ -33,6 +33,7 @@ public class Task implements Completable {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @OrderBy("id")
     private List<SubTask> subTasks = new ArrayList<>();
 
     @Getter
