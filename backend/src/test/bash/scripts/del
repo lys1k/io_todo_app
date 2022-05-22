@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# wywołanie: 
+#
+# 		del task {id} - usuń zadanie {id}
+#
+#		del prev {id} - usuń zadanie określone jako poprzedzające do {id}; jest ono przechowywane w pliku "task".
+#
+
+if [[ $# != 2 ]]; then
+	echo "złe wywołanie"
+	exit 1
+fi
+
+if [[ $1 == 'task' ]]; then
+	id=$2
+	lwp-request -m delete -b http://localhost:8080 -H "Authorization: Bearer $token" task/$id
+elif [[ $1 == 'prev' ]]; then
+	id=$2
+	#lwp-request -m delete -b http://localhost:8080 -c application/json -f -H "Authorization: Bearer $token" task/$id/previous < task
+	lwp-request -m delete -b http://localhost:8080 -c application/json -f -H "Authorization: Bearer $token" task/$id/previous
+fi
+exit 0

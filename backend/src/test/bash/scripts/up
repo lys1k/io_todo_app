@@ -1,0 +1,32 @@
+#!/bin/bash
+
+#
+# skrót od (sign)up - rejestruje użytkownika
+#
+# wywołanie:  up {username} {password} {email}		- zarejestruj użytkownika o nazwie {username}, haśle {password} i mailu {email}.
+#
+# ostatnio przedstawione dane są zapisane w pliku "credentials" w formacie JSON
+#
+
+
+source scripts/funcs
+
+
+if [[ $# == 3 ]]; then 
+	echo "{\"username\":\"$1\",\"password\":\"$2\",\"email\":\"$3\"}" > "cache/credentials"
+	lwp-request -m post -b http://localhost:8080 -c application/json authentication/signup < "cache/credentials" > "cache/response"
+	cat "cache/response" | grep "error" > /dev/null
+	if [[ $? == 0 ]]; then
+		rm -f "cache/error"
+		save_value "status" "cache/error"
+		save_value "error" "cache/error"
+		rm -f "cache/response"
+		cat "cache/error"
+		exit 1 
+	fi
+	rm -f "cache/response"
+else
+	echo "wrong invokation"
+	exit 1
+fi
+exit 0

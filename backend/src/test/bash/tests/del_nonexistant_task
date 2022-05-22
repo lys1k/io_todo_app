@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# przygotowanie testu
+id=`get one task`
+get task $id > "task"
+del task $id > /dev/null
+del task $id > "status"
+
+# ewentualny zapis do logow
+sts=`get status from file "status"`
+if [[ $sts ]]; then
+	error=`get error from file "status"`
+	echo $sts
+	echo $error
+fi
+
+# przywrocenie stanu bazy 
+name="generic_name"
+description="generic_description"
+post task $name $description > "response"
+new_id=`get id from file "response"`
+put task $new_id < "task" > /dev/null
+
+# posprzatanie
+rm -f response
+rm -f task
+rm -f status

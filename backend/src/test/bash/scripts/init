@@ -1,0 +1,62 @@
+#!/bin/bash
+
+# wywolanie:
+#
+#		init users
+#
+#		init tasks
+#
+
+if [[ $# != 1 ]]; then
+	echo "złe wywolanie"
+	exit 1
+elif [[ $1 != 'tasks' && $1 != 'users' ]]; then
+	echo "złe wywołanie"
+	exit 1
+fi
+
+name="user"
+pass="password"
+mail="email@emailemail"
+
+if [[ $1 == 'users' ]]; then
+	for i in {1..10}; do
+		up "$name$i" $pass $mail > /dev/null
+	done
+fi
+
+if [[ $1 != 'tasks' ]]; then
+	exit 0
+fi
+
+NAMES=(
+	"mieszam_szpachle_lokciem",
+	"granie_na_czekanie",
+	"czekanie_na_granie",
+	"zakupy_w_Biedrze",
+	"wyrzucic_śmieci",
+	"uczelnia",
+	"praca"
+)
+
+DSCRS=(
+	"fly_you_fools",
+	"warzywa_umyc_wczyscic_zalac_ciepla_woda",
+	"spacer",
+	"posiekac_koperek_i_dodac_do_wywaru",
+	"dobry_wesoly_kostek_mozna",
+	"karta_bezstykowa_transakcja_potwierdzona_zweryfikowano_kod_PIN",
+	"now_its_getting_dark_and_the_sky_looks_sticky"
+)
+
+
+name_len=${#NAMES[@]}
+dscr_len=${#DSCRS[@]}
+
+for i in {1..20}; do
+	let name_index=$RANDOM%$name_len
+	let dscr_index=$RANDOM%$dscr_len
+	task_name=${NAMES[$name_index]}
+	dscr_name=${DSCRS[$dscr_index]}
+	post task $task_name $dscr_name > /dev/null
+done

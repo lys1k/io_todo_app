@@ -1,0 +1,52 @@
+failed test "del_nonexistant_task":
+
+expected:
+
+""
+
+got:
+
+"500
+Internal Server Error"
+
+_______________________________________________
+
+failed test "del_task_being_another_prev_task":
+
+expected:
+
+""
+
+got:
+
+"500
+Internal Server Error"
+
+_______________________________________________
+
+failed test "put_self_as_prev":
+
+expected:
+
+""
+
+got:
+
+"500
+Internal Server Error"
+
+_______________________________________________
+
+failed test "up_invalid_email":
+
+expected:
+
+""
+
+got:
+
+"500
+Internal Server Error"
+
+_______________________________________________
+
