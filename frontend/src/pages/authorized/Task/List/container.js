@@ -13,6 +13,11 @@ const TaskListContainer = () => {
   const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const yesterday = new Date(today);
+    yesterday.setDate(tomorrow.getDate() - 1);
     const getTasks = async () => {
       try {
         const res = await axios.get(`${process.env.REACT_APP_API_URL}/task`);
