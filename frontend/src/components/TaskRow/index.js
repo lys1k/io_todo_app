@@ -1,13 +1,24 @@
 import React from 'react';
+import { isEmpty, map } from 'lodash';
 import noop from 'lodash/noop';
 import PropTypes from 'prop-types';
 import { Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import Check from 'components/Check';
+import Chip from 'components/Chip';
 import { severityShape } from './shapes';
 import getStyles from './styles';
 
-const TaskRow = ({ isDone, title, time, severity, onClick, onCheck, sx }) => {
+const TaskRow = ({
+  isDone,
+  title,
+  tags,
+  time,
+  severity,
+  onClick,
+  onCheck,
+  sx,
+}) => {
   const styles = getStyles(isDone);
 
   const handleCheck = (event) => {
@@ -21,6 +32,13 @@ const TaskRow = ({ isDone, title, time, severity, onClick, onCheck, sx }) => {
       <Typography variant="h3" sx={styles.title} noWrap>
         {title}
       </Typography>
+      {!isEmpty(tags) && (
+        <Box>
+          {map(tags, (entry) => (
+            <Chip key={entry.id} title={entry.tagName} />
+          ))}
+        </Box>
+      )}
       <Box
         sx={{
           ...(severity === 'warning' && styles.warning),
@@ -43,6 +61,12 @@ TaskRow.propTypes = {
   onClick: PropTypes.func,
   onCheck: PropTypes.func,
   sx: PropTypes.object,
+  tags: PropTypes.arrayOf(
+    PropTypes.shape({
+      tagName: PropTypes.string,
+      id: PropTypes.number,
+    })
+  ),
 };
 
 TaskRow.defaultProps = {
@@ -51,6 +75,7 @@ TaskRow.defaultProps = {
   onClick: noop,
   onCheck: noop,
   sx: {},
+  tags: [],
 };
 
 export default TaskRow;
