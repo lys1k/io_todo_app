@@ -1,6 +1,5 @@
 package application.service;
 
-import application.model.tag.Tag;
 import application.model.tasks.SubTask;
 import application.model.tasks.Task;
 import application.payroll.TaskCanNotBeFinishedException;
@@ -113,4 +112,3 @@ public class TaskService {
         return taskRepository.getTasksByTagName(tagName);
     }
 }
-
