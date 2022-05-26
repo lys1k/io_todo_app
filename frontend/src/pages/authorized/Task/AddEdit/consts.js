@@ -6,10 +6,19 @@ const initialPreviousTaskData = {
   id: '',
 };
 
+const initialTagData = {
+  id: '',
+};
+
 const initialTaskData = {
   name: '',
   description: '',
   date: null,
 };
 
-export { initialTaskData, initialSubTaskData, initialPreviousTaskData };
+export {
+  initialTaskData,
+  initialSubTaskData,
+  initialTagData,
+  initialPreviousTaskData,
+};
