@@ -9,4 +9,13 @@ const getUniqueAvailableTasks = (allTasks, formTasks, currentFieldValue) => {
   );
 };
 
-export { getUniqueAvailableTasks };
+const getUniqueTags = (allTags, formTags, currentFieldValue) => {
+  const ids = map(formTags, ({ id }) => id);
+
+  return filter(
+    allTags,
+    (tag) => !includes(ids, tag.value) || tag.value === currentFieldValue
+  );
+};
+
+export { getUniqueAvailableTasks, getUniqueTags };

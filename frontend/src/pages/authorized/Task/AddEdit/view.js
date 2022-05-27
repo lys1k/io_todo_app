@@ -8,12 +8,22 @@ import Button from 'components/Button';
 import Input from 'components/Input';
 import Select from 'components/Select';
 import { optionsShape } from 'components/Select/shapes';
-import { initialSubTaskData, initialPreviousTaskData } from './consts';
+import {
+  initialSubTaskData,
+  initialTagData,
+  initialPreviousTaskData,
+} from './consts';
 import styles from './styles';
-import { getUniqueAvailableTasks } from './utils';
+import { getUniqueAvailableTasks, getUniqueTags } from './utils';
 import validationSchema from './validation';
 
-const TaskAddEdit = ({ isEdit, onSubmit, availableTasks, initialValues }) => {
+const TaskAddEdit = ({
+  isEdit,
+  onSubmit,
+  availableTasks,
+  initialValues,
+  availableTags,
+}) => {
   return (
     <Formik
       onSubmit={onSubmit}
@@ -84,6 +94,43 @@ const TaskAddEdit = ({ isEdit, onSubmit, availableTasks, initialValues }) => {
               )}
             />
             <Typography variant="h3" sx={styles.subtitle}>
+              Tagi
+            </Typography>
+            <FieldArray
+              name="tags"
+              render={(arrayHelpers) => (
+                <>
+                  {map(values.tags, (_, index) => (
+                    <Box sx={styles.fieldWithDeleteWrapper} key={index}>
+                      <Select
+                        name={`tags.${index}.id`}
+                        label="Tag"
+                        options={getUniqueTags(
+                          availableTags,
+                          values.tags,
+                          values.tags[index].id
+                        )}
+                        sx={styles.input}
+                      />
+                      <DeleteIcon
+                        onClick={() => arrayHelpers.remove(index)}
+                        sx={styles.deleteIcon}
+                      />
+                    </Box>
+                  ))}
+                  <Button
+                    onClick={() =>
+                      arrayHelpers.insert(values.tags.length, initialTagData)
+                    }
+                    size="small"
+                    sx={styles.addField}
+                  >
+                    Dodaj tag
+                  </Button>
+                </>
+              )}
+            />
+            <Typography variant="h3" sx={styles.subtitle}>
               Podzadania
             </Typography>
             <FieldArray
@@ -137,6 +184,7 @@ TaskAddEdit.propTypes = {
     date: PropTypes.string,
   }),
   availableTasks: optionsShape,
+  availableTags: optionsShape,
 };
 
 TaskAddEdit.defaultProps = {
@@ -144,6 +192,7 @@ TaskAddEdit.defaultProps = {
   initialValues: {},
   isEdit: false,
   availableTasks: [],
+  availableTags: [],
 };
 
 export default TaskAddEdit;
