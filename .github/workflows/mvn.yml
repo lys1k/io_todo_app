@@ -5,9 +5,6 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ develop ]
-  pull_request:
-    branches: [ develop ]
 
 jobs:
   build:
@@ -23,4 +20,19 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: mvn -B package --file backend/pom.xml
+      run: |
+        cd backend/src/test/bash
+        source setup
+        bash scripts/ubuntu_startup
+        cd ../../..
+        #cd ../backend
+        mvn package spring-boot:start
+        cd src/test/bash
+        #cd ../http
+        init users
+        source sin user1 password
+        init tasks
+        tester enable
+        cd ../../..
+        #cd ../backend
+        mvn spring-boot:stop

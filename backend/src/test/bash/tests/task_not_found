@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# przygotowanie testu
+id=`get one task`
+get task $id > "response"
+del task $id
+
+# wlasciwy test
+get task $id > "status"
+
+# ew zapis do logow
+sts=`get status from file "status"`
+if [[ $sts ]]; then
+	error=`get error from file "status"`
+	echo $sts
+	echo $error
+fi
+
+sts=`cat "status"`
+if [[ $sts != "Could not find task $id" ]]; then
+	echo $sts
+fi
+
+# przywrocenie stanu bazy sprzed testu
+post task "generic_name" "generic_desc" > "task"
+new_id=`get id from file "task"`
+put task $new_id < "response" > /dev/null
+
+# sprzatanie 
+rm -f "task"
+rm -f "status"
+rm -f "response"

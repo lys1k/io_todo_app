@@ -1,0 +1,12 @@
+#!/bin/bash
+
+
+get task "a" > "response"
+sts=`get status from file "response"`
+if [[ $sts != 400 ]]; then
+	error=`get error from file "response"`
+	echo $sts
+	echo $error
+fi
+
+rm -f "response"

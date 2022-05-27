@@ -1,0 +1,126 @@
+#!/bin/bash
+
+#
+# ustawia wszystkie potrzebne, oraz wygodne, ustawienia do uruchamiania skryptów.
+#
+# wywołanie:
+#
+#		. setup
+#		source setup
+#
+
+function get {
+	if [[ $# == 1 ]]; then
+		scripts/get $1
+	elif [[ $# == 2 ]]; then
+		scripts/get $1 $2
+	elif [[ $# == 3 ]]; then
+		scripts/get $1 $2 $3
+	elif [[ $# == 4 ]]; then
+		scripts/get $1 $2 $3 $4
+	elif [[ $# == 5 ]]; then
+		scripts/get $1 $2 $3 $4 $5
+	else
+		echo "złe wywołanie"
+	fi
+}
+
+function put {
+	if [[ $# == 2 ]]; then
+		scripts/put $1 $2
+	else
+		echo "złe wywołanie"
+	fi
+}
+
+function post {
+	if [[ $# == 2 ]]; then
+		scripts/post $1 $2
+	elif [[ $# == 3 ]]; then
+		scripts/post $1 $2 $3
+	else
+		echo "złe wywołanie"
+	fi
+}
+
+function del {
+	if [[ $# == 2 ]]; then
+		scripts/del $1 $2
+	else
+		echo "złe wywołanie"
+	fi
+}
+
+function sin {
+	if [[ $# == 2 ]]; then
+		sin $1 $2
+	else
+		echo "złe wywołanie"
+	fi
+}
+
+function up {
+	if [[ $# == 3 ]]; then
+	       scripts/up $1 $2 $3
+	else
+		echo "złe wywołanie"
+	fi
+}	
+
+#function boot {
+#	./boot
+#}
+
+function init {
+	if [[ $# == 1 ]]; then
+		scripts/init $1
+	else
+		echo "zle wywolanie"
+	fi
+}
+
+function tester {
+	if [[ $# == 0 ]]; then
+		scripts/tester
+	elif [[ $# == 1 ]]; then
+		scripts/tester $1
+	else
+		echo "zle wywolanie"
+	fi
+}
+
+function ubuntu_startup {
+	scripts/ubuntu_startup
+}
+
+
+export -f get
+export -f put
+export -f post
+export -f del
+export -f sin
+export -f up
+#export -f boot
+export -f tester
+export -f init
+export -f ubuntu_startup
+
+chmod u+x scripts/up
+chmod u+x scripts/del
+chmod u+x scripts/get
+chmod u+x sin
+chmod u+x scripts/put
+chmod u+x scripts/post
+chmod u+x scripts/funcs
+chmod u+x scripts/tester
+chmod u+x scripts/ubuntu_startup
+
+#alias get='scripts/get'
+#alias put='scripts/put'
+#alias post='scripts/post'
+#alias del='scripts/del'
+#alias up='./up'
+#alias in='./in'
+#alias boot='./boot'
+#alias init='./init'
+#alias tester='./tester'

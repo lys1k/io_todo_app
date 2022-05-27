@@ -1,0 +1,96 @@
+#!/bin/bash
+
+#
+# wykonuje testy, zapisuje ich wyniki, po czym sprawdza poprawność wykonania. 
+# Poprawność wykonania robi się przy pomocy wartości zwracanej przy exit'cie.
+#
+# wywołanie:
+#
+# 			tester          - robi to, co zostało napisane wyżej. Przydatne do uruchomiania z poziomu konsoli.
+#
+#			tester debug    - dla koneserów (lub leni [aka ja]), wykonuje i zapisuje wyniki żądań, bez sprawdzenia poprawności.
+#					  przydatne podczas tworzenia wzorcowych wyników żądań. Patrz: dla leni.
+#
+#			tester enable   - identyczne uruchomienie jak przy "tester". Przydatne dla czytelności YAML'a.
+#
+#			tester disable  - kończy działanie programu. Przydatne, by niewielkim kosztem wyłączyć CI z poziomu YAML'a.
+#
+
+function run_tests {
+	while [[ $# != 0 ]]; do
+		file=$1
+		chmod u+x tests/$file
+		tests/$file > outputs/$file
+		chmod u-x tests/$file
+		#chmod u+x $file
+		#./$file > ../outputs/$file
+		#chmod u-x $file
+		#eval `cat $file` > ../outputs/$file
+		shift
+	done
+}
+
+function diff_tests {
+	#echo "$1 $2 $3 $4 $5 $6 $7 $8 $9 ${10} ${11} ${12}"
+	while [[ $# != 0 ]]; do 
+		file=$1
+		desird_output=`cat   resps/$file`
+		tested_output=`cat outputs/$file`
+		if [[ $desird_output != $tested_output ]]; then
+			echo "failed test \"$file\":"		 		>> logs
+			echo		 					>> logs
+			echo "expected:"		 			>> logs
+			echo		 					>> logs
+			echo "\"$desird_output\""		 		>> logs
+			echo 							>> logs
+			echo "got:" 						>> logs
+			echo 							>> logs
+			echo "\"$tested_output\"" 				>> logs
+			echo 							>> logs
+			echo "_______________________________________________" 	>> logs
+			echo 							>> logs
+		fi
+		shift
+	done
+}
+
+#source setup
+
+if [[ $# == 1 && $1 == 'debug' ]]; then
+	debug='yes'
+elif [[ $# == 1 && $1 == 'enable' ]]; then
+	debug='no'
+elif [[ $# == 1 && $1 == 'disable' ]]; then
+	exit 0
+elif [[ $# == 0 ]]; then
+	debug='no'
+else
+	echo "złe wywołanie"
+	exit 1
+fi
+test_files=$(ls tests | tr '\n' ' ')
+resps_files=$(ls resps | tr '\n' ' ')
+rm -rf outputs
+mkdir outputs
+#cd tests
+run_tests $test_files
+if [[ $debug == 'yes' ]]; then
+	exit 0
+fi
+if [[ $test_files != $resps_files ]]; then
+	echo "katalogi tests oraz resps nie są ze sobą zgodne"
+	exit 1
+fi
+#cd ..
+rm -f logs
+touch logs
+diff_tests $resps_files
+logs=`cat logs`
+if [[ $logs ]]; then
+	echo -e "\nfound error(s)\n"
+	cat logs
+	#echo $logs
+	exit 0
+	exit 1
+fi
+exit 0

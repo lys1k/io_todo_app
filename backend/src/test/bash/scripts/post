@@ -1,0 +1,33 @@
+#!/bin/bash
+
+#
+# wywołanie: 
+#		post task {name} 			- wyślij nowe zadanie o nazwie {name}
+#
+#		post task {name} {description}		-                - || - 	       i opisie {description}
+#
+# w pliku "task" jest zapisany ostatnio wysłane zadanie.
+#
+
+
+if [[ $# < 2 || $# > 3 ]]; then
+	echo "złe wywołanie"
+	exit 1
+fi
+
+if [[ $1 == 'task' ]]; then
+
+	name=$2
+	if [[ $# == 2 ]]; then 
+		description=""
+	elif [[ $# == 3 ]]; then
+		description=$3
+	else
+		echo "złe wywołanie"
+		exit 1
+	fi
+
+	echo "{\"name\":\"$name\",\"description\":\"$description\"}" > task
+
+	lwp-request -m post -b http://localhost:8080 -c application/json -H "Authorization: Bearer $token" task < task
+fi 

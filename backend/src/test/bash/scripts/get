@@ -1,0 +1,68 @@
+#!/bin/bash
+
+#
+# get one task  		- pobiera pierwsze zadanie z otrzymanego JSON'a
+#
+# get task      		- pobiera wszystkie taski z bazy
+#
+# get task {id} 		- pobiera taski {id}
+#
+# get id from file {file} 	- wyłuskaj ID z pliku {file};
+#				  use case:
+#				  post {name} {descr} > response; get id from file response - masz ID nowego zadania
+#
+# get prev id from file {file}  - wyłuskaj ID pierwszego zadania poprzedzającego z pliku {file}
+#
+# get status from file {file}   -       ;/
+#
+# get error from file {file}
+#
+# ostatnia otrzymana odpowiedź jest zapisana w pliku "response" w formacie JSON
+#
+# todo: wyświetlić zadania w przyjemniejszej postaci. na później.
+# todo: nie korzystasz z endpointa na datę.
+# todo: komendę wyłuskującą zmienić na funkcję.
+
+if [[ $# < 1 || $# > 5 ]]; then
+	echo "złe wywołanie"
+	exit 1
+fi
+
+if [[ $1 == 'task' ]]; then
+
+	if [[ $# == 1 ]]; then 
+		lwp-request -m get -b http://localhost:8080 -H "Authorization: Bearer $token" task
+	else
+		id=$2
+		lwp-request -m get -b http://localhost:8080 -H "Authorization: Bearer $token" task/$id
+	fi
+
+elif [[ $1 == 'one' && $2 == 'task' ]]; then
+
+	lwp-request -m get -b http://localhost:8080 -H "Authorization: Bearer $token" task | tr '[]{},' '\n' | grep "^\"id\":.*$" | head -n 1 | tr ':' '\n' | tail -n 1
+
+elif [[ $1 == 'id' && $2 == 'from' && $3 == 'file' ]]; then
+
+	file=$4
+	cat $file | tr '[]{},' '\n' | grep "^\"id\":.*$" | head -n 1 | tr ':' '\n' | tail -n 1
+
+elif [[ $1 == 'status' && $2 == 'from' && $3 == 'file' ]]; then
+
+	file=$4
+	cat $file | tr '[]{},' '\n' | grep "^\"status\":.*$" | head -n 1 | tr ':' '\n' | tail -n 1
+
+elif [[ $1 == 'error' && $2 == 'from' && $3 == 'file' ]]; then
+
+	file=$4
+	cat $file | tr '[]{},' '\n' | grep "^\"error\":.*$" | head -n 1 | tr ':' '\n' | tail -n 1 | tr -d '"'
+
+elif [[ $1 == 'prev' && $2 == 'id' && $3 == 'from' && $4 == 'file' ]]; then
+
+	file=$5
+	cat $file | tr '[]{],' '\n' | grep "^\"id\":.*$" | head -n 2 | tail -n 1 | tr ':' '\n' | tail -n 1
+
+else
+	echo "złe wywołanie"
+	exit 1
+fi
+exit 0
