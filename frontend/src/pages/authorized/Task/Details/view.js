@@ -8,12 +8,14 @@ import SubTask from 'components/SubTask';
 import { DATETIME_FORMAT } from 'consts/dateFormats';
 import { taskShape } from 'templates/DayTasks/shapes';
 import { formatDate } from 'utils/dateUtils';
+import ActionText from 'components/ActionText';
 
 const TaskDetailsView = ({
   task,
   onTaskDelete,
   onTaskEdit,
   onSubTaskCheck,
+  onPreviousTaskClick,
 }) => {
   const mainSectionStyle = {
     marginBottom: 30,
@@ -53,6 +55,22 @@ const TaskDetailsView = ({
         </Typography>
       </Box>
 
+      {!isEmpty(task.previousTasks) && (
+        <Box sx={sectionStyles}>
+          <Typography variant="h2" sx={sectionTitleStyle}>
+            Zadania poprzedzające
+          </Typography>
+          {map(task.previousTasks, (prevTask) => (
+            <ActionText
+              key={prevTask.id}
+              onClick={() => onPreviousTaskClick(prevTask.id)}
+              sx={{marginBottom: 5}}
+            >
+              {prevTask.name}
+            </ActionText>
+          ))}
+        </Box>
+      )}
       {!isEmpty(task.subTasks) && (
         <Box sx={sectionStyles}>
           <Typography variant="h2" sx={sectionTitleStyle}>
@@ -87,12 +105,14 @@ TaskDetailsView.propTypes = {
   onTaskDelete: PropTypes.func,
   onTaskEdit: PropTypes.func,
   onSubTaskCheck: PropTypes.func,
+  onPreviousTaskClick: PropTypes.func,
 };
 
 TaskDetailsView.defaultProps = {
   onTaskDelete: noop,
   onTaskEdit: noop,
   onSubTaskCheck: noop,
+  onPreviousTaskClick: noop,
 };
 
 export default TaskDetailsView;

@@ -42,8 +42,12 @@ const TaskDetailsContainer = () => {
     }
   };
 
-  const onTaskEdit = async () => {
+  const onTaskEdit = () => {
     navigate(`/application/tasks/edit/${taskId}`);
+  };
+
+  const onPreviousTaskClick = (prevTaskId) => {
+    navigate(`/application/tasks/${prevTaskId}`);
   };
 
   const onSubTaskCheck = async (subTaskId) => {
@@ -71,6 +75,7 @@ const TaskDetailsContainer = () => {
       onTaskDelete={onTaskDelete}
       onTaskEdit={onTaskEdit}
       onSubTaskCheck={onSubTaskCheck}
+      onPreviousTaskClick={onPreviousTaskClick}
     />
   );
 };

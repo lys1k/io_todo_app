@@ -1,7 +1,6 @@
 export default () => ({
   root: {
-    minWidth: 120,
-    height: 35,
+    height: 30,
     borderRadius: 50,
     color: (theme) => theme.palette.secondary.contrastText,
     textTransform: 'none',

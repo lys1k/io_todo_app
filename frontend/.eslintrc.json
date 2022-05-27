@@ -39,7 +39,7 @@
       }
     ],
     "indent": ["warn", 2, { "SwitchCase": 1 }],
-    "linebreak-style": ["error", "unix"],
+    "linebreak-style": ["warn", "unix"],
     "quotes": ["warn", "single"],
     "semi": ["warn", "always"],
     "import/order": [
