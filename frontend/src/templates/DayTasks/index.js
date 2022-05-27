@@ -19,6 +19,7 @@ const DayTasks = ({ date, tasks, onTaskClick, onTaskCheck }) => {
               onClick={() => onTaskClick(task.id)}
               onCheck={() => onTaskCheck(task.id)}
               title={task.name}
+              tags={task.tags}
               time={task.time}
               severity={task.severity}
               sx={{ marginBottom: 5 }}

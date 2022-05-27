@@ -3,6 +3,7 @@ import { isEmpty, map, noop } from 'lodash';
 import PropTypes from 'prop-types';
 import { Box, Typography } from '@mui/material';
 import Button from 'components/Button';
+import Chip from 'components/Chip';
 import SubTask from 'components/SubTask';
 import { DATETIME_FORMAT } from 'consts/dateFormats';
 import { taskShape } from 'templates/DayTasks/shapes';
@@ -14,14 +15,29 @@ const TaskDetailsView = ({
   onTaskEdit,
   onSubTaskCheck,
 }) => {
+  const mainSectionStyle = {
+    marginBottom: 30,
+    display: 'flex',
+    alignItems: 'center',
+  };
+  const mainSectionTitleStyle = { marginRight: 50 };
   const sectionStyles = { marginBottom: 30 };
   const sectionTitleStyle = { marginBottom: 20 };
 
   return (
     <Box>
-      <Typography variant="h1" sx={sectionStyles}>
-        Zadanie: {task.name}
-      </Typography>
+      <Box sx={mainSectionStyle}>
+        <Typography variant="h1" sx={mainSectionTitleStyle}>
+          Zadanie: {task.name}
+        </Typography>
+        {!isEmpty(task.tags) && (
+          <Box>
+            {map(task.tags, (entry) => (
+              <Chip key={entry.id} title={entry.tagName} />
+            ))}
+          </Box>
+        )}
+      </Box>
       <Box sx={sectionStyles}>
         <Typography variant="h2" sx={sectionTitleStyle}>
           Opis
