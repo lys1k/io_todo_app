@@ -8,7 +8,7 @@ const colors = {
   secondary: {
     contrastText: 'white',
     light: '#ffe180',
-    main: '#c79f1e',
+    main: '#de78bb',
     dark: '#80650d',
   },
   neutral: {

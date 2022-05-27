@@ -2,6 +2,7 @@ import React from 'react';
 import { isEmpty, map, noop } from 'lodash';
 import PropTypes from 'prop-types';
 import { Box, Typography } from '@mui/material';
+import ActionText from 'components/ActionText';
 import Button from 'components/Button';
 import Chip from 'components/Chip';
 import SubTask from 'components/SubTask';
@@ -14,6 +15,7 @@ const TaskDetailsView = ({
   onTaskDelete,
   onTaskEdit,
   onSubTaskCheck,
+  onPreviousTaskClick,
 }) => {
   const mainSectionStyle = {
     marginBottom: 30,
@@ -53,6 +55,22 @@ const TaskDetailsView = ({
         </Typography>
       </Box>
 
+      {!isEmpty(task.previousTasks) && (
+        <Box sx={sectionStyles}>
+          <Typography variant="h2" sx={sectionTitleStyle}>
+            Zadania poprzedzające
+          </Typography>
+          {map(task.previousTasks, (prevTask) => (
+            <ActionText
+              key={prevTask.id}
+              onClick={() => onPreviousTaskClick(prevTask.id)}
+              sx={{ marginBottom: 5 }}
+            >
+              {prevTask.name}
+            </ActionText>
+          ))}
+        </Box>
+      )}
       {!isEmpty(task.subTasks) && (
         <Box sx={sectionStyles}>
           <Typography variant="h2" sx={sectionTitleStyle}>
@@ -87,12 +105,14 @@ TaskDetailsView.propTypes = {
   onTaskDelete: PropTypes.func,
   onTaskEdit: PropTypes.func,
   onSubTaskCheck: PropTypes.func,
+  onPreviousTaskClick: PropTypes.func,
 };
 
 TaskDetailsView.defaultProps = {
   onTaskDelete: noop,
   onTaskEdit: noop,
   onSubTaskCheck: noop,
+  onPreviousTaskClick: noop,
 };
 
 export default TaskDetailsView;
