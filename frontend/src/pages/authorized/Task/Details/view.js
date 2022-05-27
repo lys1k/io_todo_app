@@ -2,13 +2,13 @@ import React from 'react';
 import { isEmpty, map, noop } from 'lodash';
 import PropTypes from 'prop-types';
 import { Box, Typography } from '@mui/material';
+import ActionText from 'components/ActionText';
 import Button from 'components/Button';
 import Chip from 'components/Chip';
 import SubTask from 'components/SubTask';
 import { DATETIME_FORMAT } from 'consts/dateFormats';
 import { taskShape } from 'templates/DayTasks/shapes';
 import { formatDate } from 'utils/dateUtils';
-import ActionText from 'components/ActionText';
 
 const TaskDetailsView = ({
   task,
@@ -64,7 +64,7 @@ const TaskDetailsView = ({
             <ActionText
               key={prevTask.id}
               onClick={() => onPreviousTaskClick(prevTask.id)}
-              sx={{marginBottom: 5}}
+              sx={{ marginBottom: 5 }}
             >
               {prevTask.name}
             </ActionText>

@@ -3,9 +3,16 @@ import PropTypes from 'prop-types';
 import { Typography } from '@mui/material';
 
 const ActionText = ({ children, onClick, sx }) => {
-
   return (
-    <Typography variant='h3' onClick={onClick} sx={{color: (theme)=>theme.palette.primary.dark, cursor: "pointer", ...sx}}>
+    <Typography
+      variant="h3"
+      onClick={onClick}
+      sx={{
+        color: (theme) => theme.palette.primary.dark,
+        cursor: 'pointer',
+        ...sx,
+      }}
+    >
       {children}
     </Typography>
   );
@@ -18,7 +25,7 @@ ActionText.propTypes = {
 };
 
 ActionText.defaultProps = {
-  sx: {}
-}
+  sx: {},
+};
 
 export default ActionText;
