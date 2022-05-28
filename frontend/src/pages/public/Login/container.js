@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import useUnauthorizedHandler from 'hooks/useUnauthorizedHandler';
@@ -8,6 +8,7 @@ import LoginView from './view';
 const LoginContainer = () => {
   const navigate = useNavigate();
   const { handleUnauthorized } = useUnauthorizedHandler();
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (UserManager.isLoggedIn()) {
@@ -17,6 +18,7 @@ const LoginContainer = () => {
 
   const onSubmit = async (values) => {
     try {
+      setError(null);
       const res = await axios.post(
         `${process.env.REACT_APP_API_URL}/authentication/signin`,
         values
@@ -26,11 +28,14 @@ const LoginContainer = () => {
       UserManager.setUsername(res.data.username);
       navigate('/application/tasks/list');
     } catch (err) {
+      if (err.response.status === 401) {
+        setError('Podany email lub hasło są nieprawidłowe!');
+      }
       handleUnauthorized(err);
     }
   };
 
-  return <LoginView onSubmit={onSubmit} />;
+  return <LoginView error={error} onSubmit={onSubmit} />;
 };
 
 export default LoginContainer;
