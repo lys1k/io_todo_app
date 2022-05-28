@@ -8,13 +8,15 @@ import Button from 'components/Button';
 import Chip from 'components/Chip';
 import Input from 'components/Input';
 import styles from './styles';
+import validation from './validation';
 
-const ProfileView = ({ onSubmit, onDelete, tags }) => {
+const ProfileView = ({ onSubmit, onDelete, onLogout, tags }) => {
   return (
     <Box>
       <Formik
         onSubmit={onSubmit}
         initialValues={{ tagName: '' }}
+        validationSchema={validation}
         enableReinitialize
       >
         <Form>
@@ -47,6 +49,9 @@ const ProfileView = ({ onSubmit, onDelete, tags }) => {
           />
         ))}
       </Box>
+      <Button onClick={onLogout} sx={{ marginTop: 50 }}>
+        Wyloguj
+      </Button>
     </Box>
   );
 };
@@ -54,6 +59,7 @@ const ProfileView = ({ onSubmit, onDelete, tags }) => {
 ProfileView.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
+  onLogout: PropTypes.func.isRequired,
   tags: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string,
