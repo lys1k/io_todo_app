@@ -10,6 +10,7 @@ export default {
     alignItems: 'center',
     boxSizing: 'border-box',
     cursor: 'pointer',
+    backgroundColor: (theme) => theme.palette.white,
   },
   icon: {
     width: 45,

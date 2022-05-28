@@ -20,12 +20,15 @@ const AuthorizedLayout = () => {
         boxSizing: 'border-box',
       }}
     >
+      <Box sx={{ width: 300, minWidth: 130 }} />
       <Box
         sx={{
           width: 300,
           display: 'flex',
           flexDirection: 'column',
           rowGap: 20,
+          position: 'fixed',
+          zIndex: 5,
         }}
       >
         <MenuButton
@@ -45,7 +48,8 @@ const AuthorizedLayout = () => {
       <Box sx={{ flex: 1, padding: 50, maxWidth: 1000 }}>
         <Outlet />
       </Box>
-      <Box sx={{ width: 100 }}>
+      <Box sx={{ width: 100 }} />
+      <Box sx={{ width: 100, position: 'fixed', right: 0, zIndex: 5 }}>
         <AccountButton
           active={matchPath('/application/profile', pathname) !== null}
           onClick={() => navigate('/application/profile')}
