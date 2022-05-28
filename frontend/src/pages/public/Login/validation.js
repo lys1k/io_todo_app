@@ -1,6 +1,5 @@
 import * as Yup from 'yup';
-
-const required = 'This field is required';
+import { required } from 'consts/messages';
 
 export default Yup.object({
   username: Yup.string().required(required),
