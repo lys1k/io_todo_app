@@ -27,7 +27,6 @@ const TaskListContainer = () => {
   }, []);
 
   const onTaskClick = (id) => {
-    console.log('Task clicked: ', id);
     navigate(`/application/tasks/${id}`);
   };
 

@@ -11,6 +11,7 @@ const Check = ({ checked, onClick, sx }) => {
     <Box
       sx={{
         ...styles.root,
+        ...(onClick === null && styles.readOnly),
         ...sx,
       }}
       onClick={onClick}
