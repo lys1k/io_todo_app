@@ -10,6 +10,7 @@ const TaskListContainer = () => {
   const navigate = useNavigate();
   const { handleUnauthorized } = useUnauthorizedHandler();
 
+  const [hideFinished, setHideFinished] = useState(true);
   const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
@@ -47,11 +48,17 @@ const TaskListContainer = () => {
     }
   };
 
+  const switchFinishedTasksVisibility = () => {
+    setHideFinished(!hideFinished);
+  };
+
   return (
     <TaskLIstView
-      tasks={getMappedTasks(tasks)}
+      tasks={getMappedTasks(tasks, hideFinished)}
       onTaskClick={onTaskClick}
       onTaskCheck={onTaskCheck}
+      switchFinishedTasksVisibility={switchFinishedTasksVisibility}
+      hideFinished={hideFinished}
     />
   );
 };
