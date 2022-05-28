@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import { isToday } from 'date-fns';
 import differenceInDays from 'date-fns/fp/differenceInDays';
 import map from 'lodash/map';
 import noop from 'lodash/noop';
@@ -9,10 +10,23 @@ import DayTasks from 'templates/DayTasks';
 import { tasksWithDateShape } from './shapes';
 
 const TaskListView = ({ tasks, onTaskClick, onTaskCheck }) => {
+  const todayRef = useRef();
+  useEffect(() => {
+    setTimeout(() => {
+      if (todayRef.current) {
+        todayRef.current.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 500);
+  }, [todayRef, todayRef.current]);
+
   return (
     <Box>
       {map(tasks, (entry, index) => (
-        <Box sx={{ marginBottom: 40 }} key={entry.id}>
+        <Box
+          ref={isToday(entry.date) ? todayRef : null}
+          sx={{ marginBottom: 40 }}
+          key={entry.id}
+        >
           <DayTasks
             date={entry.date}
             tasks={entry.tasks}
