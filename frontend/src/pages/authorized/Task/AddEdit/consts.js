@@ -14,6 +14,9 @@ const initialTaskData = {
   name: '',
   description: '',
   date: null,
+  previousTasks: [],
+  subTasks: [],
+  tags: [],
 };
 
 export {
