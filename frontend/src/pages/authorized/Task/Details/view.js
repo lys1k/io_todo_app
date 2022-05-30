@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Box, Typography } from '@mui/material';
 import ActionText from 'components/ActionText';
 import Button from 'components/Button';
+import Check from 'components/Check';
 import Chip from 'components/Chip';
 import SubTask from 'components/SubTask';
 import { DATETIME_FORMAT } from 'consts/dateFormats';
@@ -14,6 +15,7 @@ const TaskDetailsView = ({
   task,
   onTaskDelete,
   onTaskEdit,
+  onTaskCheck,
   onSubTaskCheck,
   onPreviousTaskClick,
 }) => {
@@ -29,6 +31,11 @@ const TaskDetailsView = ({
   return (
     <Box>
       <Box sx={mainSectionStyle}>
+        <Check
+          checked={task.finished}
+          onClick={onTaskCheck}
+          sx={{ marginRight: 20 }}
+        />
         <Typography variant="h1" sx={mainSectionTitleStyle}>
           Zadanie: {task.name}
         </Typography>
@@ -81,8 +88,10 @@ const TaskDetailsView = ({
               <SubTask
                 key={subtask.id}
                 title={subtask.name}
-                isDone={subtask.finished}
-                onCheck={() => onSubTaskCheck(subtask.id)}
+                isDone={subtask.finished || task.finished}
+                onCheck={
+                  !task.finished ? () => onSubTaskCheck(subtask.id) : null
+                }
               />
             ))}
           </Box>
@@ -106,6 +115,7 @@ TaskDetailsView.propTypes = {
   onTaskEdit: PropTypes.func,
   onSubTaskCheck: PropTypes.func,
   onPreviousTaskClick: PropTypes.func,
+  onTaskCheck: PropTypes.func,
 };
 
 TaskDetailsView.defaultProps = {
@@ -113,6 +123,7 @@ TaskDetailsView.defaultProps = {
   onTaskEdit: noop,
   onSubTaskCheck: noop,
   onPreviousTaskClick: noop,
+  onTaskCheck: noop,
 };
 
 export default TaskDetailsView;

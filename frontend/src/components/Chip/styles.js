@@ -9,8 +9,8 @@ export default () => ({
     '& .MuiChip-label': { fontSize: 15 },
   },
   icon: {
-    width: 30,
-    height: 30,
+    width: 20,
+    height: 20,
     color: (theme) => theme.palette.white,
   },
 });

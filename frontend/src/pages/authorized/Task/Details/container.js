@@ -50,6 +50,21 @@ const TaskDetailsContainer = () => {
     navigate(`/application/tasks/${prevTaskId}`);
   };
 
+  const onTaskCheck = async () => {
+    try {
+      const checked = !task.finished;
+      const endpoint = checked ? 'check' : 'uncheck';
+      await axios.put(
+        `${process.env.REACT_APP_API_URL}/task/${taskId}/${endpoint}`
+      );
+      const newTask = { ...task };
+      newTask.finished = checked;
+      setTask(newTask);
+    } catch (err) {
+      handleUnauthorized(err);
+    }
+  };
+
   const onSubTaskCheck = async (subTaskId) => {
     try {
       const subTaskIndex = findIndex(
@@ -74,6 +89,7 @@ const TaskDetailsContainer = () => {
       task={task}
       onTaskDelete={onTaskDelete}
       onTaskEdit={onTaskEdit}
+      onTaskCheck={onTaskCheck}
       onSubTaskCheck={onSubTaskCheck}
       onPreviousTaskClick={onPreviousTaskClick}
     />
