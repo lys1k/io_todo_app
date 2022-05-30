@@ -5,6 +5,7 @@ import { Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import Button from 'components/Button';
 import Input from 'components/Input';
+import validation from './validation';
 
 const LoginView = ({ onSubmit }) => {
   const spacing = {
@@ -14,8 +15,10 @@ const LoginView = ({ onSubmit }) => {
   return (
     <Box sx={{ width: 500 }}>
       <Formik
+        validationSchema={validation}
         initialValues={{ username: '', password: '' }}
         onSubmit={onSubmit}
+        enableReinitialize
       >
         <Form>
           <Typography variant="h1" sx={spacing}>

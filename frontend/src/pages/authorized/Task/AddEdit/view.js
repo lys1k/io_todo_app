@@ -1,6 +1,6 @@
 import React from 'react';
 import { FieldArray, Form, Formik } from 'formik';
-import { map, noop } from 'lodash';
+import { get, map, noop } from 'lodash';
 import PropTypes from 'prop-types';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Box, Typography } from '@mui/material';
@@ -24,6 +24,8 @@ const TaskAddEdit = ({
   initialValues,
   availableTags,
 }) => {
+  const deleteIconErrorStyles = { marginTop: -20 };
+
   return (
     <Formik
       onSubmit={onSubmit}
@@ -33,7 +35,7 @@ const TaskAddEdit = ({
       validateOnChange={false}
       enableReinitialize
     >
-      {({ values }) => (
+      {({ values, errors }) => (
         <Form>
           <Box
             sx={{
@@ -65,6 +67,7 @@ const TaskAddEdit = ({
                       <Select
                         name={`previousTasks.${index}.id`}
                         label="Zadanie poprzedzające"
+                        error={get(errors, `previousTasks[${index}].id`)}
                         options={getUniqueAvailableTasks(
                           availableTasks,
                           values.previousTasks,
@@ -74,7 +77,11 @@ const TaskAddEdit = ({
                       />
                       <DeleteIcon
                         onClick={() => arrayHelpers.remove(index)}
-                        sx={styles.deleteIcon}
+                        sx={{
+                          ...styles.deleteIcon,
+                          ...(get(errors, `previousTasks[${index}]`) &&
+                            deleteIconErrorStyles),
+                        }}
                       />
                     </Box>
                   ))}
@@ -105,6 +112,7 @@ const TaskAddEdit = ({
                       <Select
                         name={`tags.${index}.id`}
                         label="Tag"
+                        error={get(errors, `tags[${index}].id`)}
                         options={getUniqueTags(
                           availableTags,
                           values.tags,
@@ -114,7 +122,11 @@ const TaskAddEdit = ({
                       />
                       <DeleteIcon
                         onClick={() => arrayHelpers.remove(index)}
-                        sx={styles.deleteIcon}
+                        sx={{
+                          ...styles.deleteIcon,
+                          ...(get(errors, `tags[${index}]`) &&
+                            deleteIconErrorStyles),
+                        }}
                       />
                     </Box>
                   ))}
@@ -146,7 +158,11 @@ const TaskAddEdit = ({
                       />
                       <DeleteIcon
                         onClick={() => arrayHelpers.remove(index)}
-                        sx={styles.deleteIcon}
+                        sx={{
+                          ...styles.deleteIcon,
+                          ...(get(errors, `subTasks[${index}]`) &&
+                            deleteIconErrorStyles),
+                        }}
                       />
                     </Box>
                   ))}

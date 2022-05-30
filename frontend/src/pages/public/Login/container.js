@@ -15,7 +15,7 @@ const LoginContainer = () => {
     }
   }, []);
 
-  const onSubmit = async (values) => {
+  const onSubmit = async (values, { setFieldError }) => {
     try {
       const res = await axios.post(
         `${process.env.REACT_APP_API_URL}/authentication/signin`,
@@ -26,6 +26,11 @@ const LoginContainer = () => {
       UserManager.setUsername(res.data.username);
       navigate('/application/tasks/list');
     } catch (err) {
+      if (err.response.status === 401) {
+        const error = 'Podany nick lub hasło są nieprawidłowe!';
+        setFieldError('username', error);
+        setFieldError('password', error);
+      }
       handleUnauthorized(err);
     }
   };

@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import useUnauthorizedHandler from 'hooks/useUnauthorizedHandler';
+import UserManager from 'managers/UserManager';
 import ProfileView from './view';
 
 const Profile = () => {
+  const navigate = useNavigate();
   const { handleUnauthorized } = useUnauthorizedHandler();
   const [tags, setTags] = useState([]);
 
@@ -29,6 +32,11 @@ const Profile = () => {
     }
   };
 
+  const onLogout = () => {
+    UserManager.clear();
+    navigate('/public/login');
+  };
+
   useEffect(() => {
     const getTags = async () => {
       try {
@@ -43,7 +51,12 @@ const Profile = () => {
   }, []);
 
   return (
-    <ProfileView onSubmit={onTagSubmit} onDelete={onTagDelete} tags={tags} />
+    <ProfileView
+      onSubmit={onTagSubmit}
+      onDelete={onTagDelete}
+      onLogout={onLogout}
+      tags={tags}
+    />
   );
 };
 

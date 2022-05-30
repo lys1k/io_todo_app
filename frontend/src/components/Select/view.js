@@ -54,10 +54,11 @@ const Select = ({ field, error, helperText, label, options, sx, ...props }) => (
         </MenuItem>
       ))}
     </MUISelect>
-    {!isEmpty(error) ||
-      (!isEmpty(helperText) && (
-        <FormHelperText>{error || helperText}</FormHelperText>
-      ))}
+    {(!isEmpty(error) || !isEmpty(helperText)) && (
+      <FormHelperText sx={{ marginLeft: 0 }}>
+        {error || helperText}
+      </FormHelperText>
+    )}
   </FormControl>
 );
 
