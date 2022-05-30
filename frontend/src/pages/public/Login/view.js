@@ -7,7 +7,7 @@ import Button from 'components/Button';
 import Input from 'components/Input';
 import validation from './validation';
 
-const LoginView = ({ error, onSubmit }) => {
+const LoginView = ({ onSubmit }) => {
   const spacing = {
     marginBottom: 20,
   };
@@ -17,7 +17,6 @@ const LoginView = ({ error, onSubmit }) => {
       <Formik
         validationSchema={validation}
         initialValues={{ username: '', password: '' }}
-        initialErrors={{ username: error, password: error }}
         onSubmit={onSubmit}
         enableReinitialize
       >
@@ -36,11 +35,6 @@ const LoginView = ({ error, onSubmit }) => {
 
 LoginView.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  error: PropTypes.string,
-};
-
-LoginView.defaultProps = {
-  error: null,
 };
 
 export default LoginView;
