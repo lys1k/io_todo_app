@@ -26,4 +26,7 @@ export default (checked) => ({
     borderRadius: '50%',
     boxSizing: 'border-box',
   },
+  readOnly: {
+    cursor: 'default',
+  },
 });
