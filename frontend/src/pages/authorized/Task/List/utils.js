@@ -1,5 +1,6 @@
 import { differenceInHours } from 'date-fns';
 import {
+  filter,
   forEach,
   groupBy,
   map,
@@ -24,7 +25,7 @@ const getSeverity = (datetime) => {
   return severity;
 };
 
-const getMappedTasks = (tasks) => {
+const getMappedTasks = (tasks, hideFinished) => {
   const groupedByDate = groupBy(tasks, (task) =>
     formatDate(task.date, DATE_FORMAT)
   );
@@ -38,13 +39,19 @@ const getMappedTasks = (tasks) => {
       severity: getSeverity(task.date),
     }));
 
+    if (hideFinished) {
+      tasks = filter(tasks, ({ finished }) => !finished);
+    }
+
     tasks = sortBy(tasks, 'time');
 
-    result.push({
-      id: uniqueId(),
-      date: new Date(toInteger(year), toInteger(month) - 1, toInteger(day)),
-      tasks,
-    });
+    if (tasks.length > 0) {
+      result.push({
+        id: uniqueId(),
+        date: new Date(toInteger(year), toInteger(month) - 1, toInteger(day)),
+        tasks,
+      });
+    }
   });
 
   return sortBy(result, 'date');
