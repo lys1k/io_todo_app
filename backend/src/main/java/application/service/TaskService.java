@@ -1,6 +1,5 @@
 package application.service;
 
-import application.model.tag.Tag;
 import application.model.tasks.SubTask;
 import application.model.tasks.Task;
 import application.payroll.TaskCanNotBeFinishedException;
@@ -111,6 +110,22 @@ public class TaskService {
 
     public List<Task> getTasksByTagName(String tagName) {
         return taskRepository.getTasksByTagName(tagName);
+    }
+
+    public Task addAlternativeTask(Long id, Task alternativeTask) throws TaskNotFoundException {
+        Task task = taskRepository.findById(id)
+                .orElseThrow(() -> new TaskNotFoundException(id));
+        task.addAlternativeTask(alternativeTask);
+
+        return taskRepository.save(task);
+    }
+
+    public void deleteAlternativeTask(Long id, Task alternativeTask) throws TaskNotFoundException {
+        Task task = taskRepository.findById(id)
+                .orElseThrow(() -> new TaskNotFoundException(id));
+        task.removeAlternativeTask(alternativeTask);
+
+        taskRepository.save(task);
     }
 }
 
