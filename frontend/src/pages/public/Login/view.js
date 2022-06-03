@@ -7,7 +7,7 @@ import Button from 'components/Button';
 import Input from 'components/Input';
 import validation from './validation';
 
-const LoginView = ({ onSubmit }) => {
+const LoginView = ({ onSubmit, navigate }) => {
   const spacing = {
     marginBottom: 20,
   };
@@ -27,6 +27,12 @@ const LoginView = ({ onSubmit }) => {
           <Input name="username" label="Nick" sx={spacing} />
           <Input type="password" name="password" label="Hasło" sx={spacing} />
           <Button submit>Zaloguj</Button>
+          <Button
+            sx={{ marginLeft: 20 }}
+            onClick={() => navigate('/public/register')}
+          >
+            Zarejestruj
+          </Button>
         </Form>
       </Formik>
     </Box>

@@ -35,7 +35,7 @@ const LoginContainer = () => {
     }
   };
 
-  return <LoginView onSubmit={onSubmit} />;
+  return <LoginView onSubmit={onSubmit} navigate={navigate} />;
 };
 
 export default LoginContainer;
