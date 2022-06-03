@@ -44,10 +44,12 @@ const TaskListView = ({
             >
               <Box sx={{ width: 220 }}>
                 <TaskSeparator
-                  value={differenceInDays(
-                    tasks[index].date,
-                    tasks?.[index + 1]?.date
-                  )}
+                  value={
+                    differenceInDays(
+                      tasks[index].date,
+                      tasks?.[index + 1]?.date
+                    ) - 1
+                  }
                 />
               </Box>
             </Box>

@@ -6,13 +6,17 @@ import styles from './styles';
 const TaskSeparator = ({ value }) => {
   return (
     <Box>
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <Box sx={styles.circle} />
-      </Box>
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <Box sx={styles.circle} />
-        <Box>{value == 1 ? value + ' dzień' : value + ' dni'}</Box>
-      </Box>
+      {value != 0 && (
+        <>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Box sx={styles.circle} />
+          </Box>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Box sx={styles.circle} />
+            <Box>{value == 1 ? value + ' dzień' : value + ' dni'}</Box>
+          </Box>
+        </>
+      )}
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <Box sx={styles.circle} />
       </Box>
