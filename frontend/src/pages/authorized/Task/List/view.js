@@ -1,10 +1,12 @@
 import React from 'react';
 import differenceInDays from 'date-fns/fp/differenceInDays';
+import { Form, Formik } from 'formik';
 import map from 'lodash/map';
 import noop from 'lodash/noop';
 import PropTypes from 'prop-types';
 import { Box } from '@mui/material';
 import Button from 'components/Button';
+import Input from 'components/Input';
 import TaskSeparator from 'components/TaskSeparator';
 import DayTasks from 'templates/DayTasks';
 import { tasksWithDateShape } from './shapes';
@@ -15,9 +17,22 @@ const TaskListView = ({
   onTaskCheck,
   switchFinishedTasksVisibility,
   hideFinished,
+  filtersInitialValues,
+  onFiltersSubmit,
 }) => {
   return (
     <Box>
+      <Formik initialValues={filtersInitialValues} onSubmit={onFiltersSubmit}>
+        <Form>
+          <Box sx={{ display: 'flex', columnGap: 20, marginBottom: 20 }}>
+            <Input name="dateFrom" label="Date from" type="datetime-local" />
+            <Input name="dateTo" label="Date to" type="datetime-local" />
+          </Box>
+          <Button size="small" sx={{ marginBottom: 10 }} submit>
+            Filtruj
+          </Button>
+        </Form>
+      </Formik>
       <Button
         size="small"
         sx={{ marginBottom: 40 }}
@@ -66,6 +81,11 @@ TaskListView.propTypes = {
   onTaskCheck: PropTypes.func,
   switchFinishedTasksVisibility: PropTypes.func,
   hideFinished: PropTypes.bool,
+  filtersInitialValues: PropTypes.shape({
+    dateFrom: PropTypes.string,
+    dateTo: PropTypes.string,
+  }),
+  onFiltersSubmit: PropTypes.func,
 };
 
 TaskListView.defaultProps = {

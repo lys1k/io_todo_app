@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { findIndex } from 'lodash';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import useUnauthorizedHandler from 'hooks/useUnauthorizedHandler';
+import { formatDate } from 'utils/dateUtils';
+import { INPUT_FORMAT } from '../../../../consts/dateFormats';
 import { getMappedTasks } from './utils';
 import TaskLIstView from './view';
 
 const TaskListContainer = () => {
   const navigate = useNavigate();
   const { handleUnauthorized } = useUnauthorizedHandler();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const [hideFinished, setHideFinished] = useState(true);
   const [tasks, setTasks] = useState([]);
@@ -16,7 +19,10 @@ const TaskListContainer = () => {
   useEffect(() => {
     const getTasks = async () => {
       try {
-        const res = await axios.get(`${process.env.REACT_APP_API_URL}/task`);
+        console.log(searchParams);
+        const res = await axios.get(
+          `${process.env.REACT_APP_API_URL}/task/${searchParams.dateFrom}/${searchParams.dateTo}`
+        );
         const tasks = res.data;
         setTasks(tasks);
       } catch (err) {
@@ -25,7 +31,7 @@ const TaskListContainer = () => {
     };
 
     getTasks();
-  }, []);
+  }, [searchParams.dateFrom, searchParams.dateTo]);
 
   const onTaskClick = (id) => {
     navigate(`/application/tasks/${id}`);
@@ -51,6 +57,16 @@ const TaskListContainer = () => {
     setHideFinished(!hideFinished);
   };
 
+  const filtersInitialValues = {
+    dateFrom: formatDate('', INPUT_FORMAT),
+    dateTo: formatDate('', INPUT_FORMAT),
+  };
+
+  const onFiltersSubmit = async (values) => {
+    console.log(values);
+    setSearchParams(values);
+  };
+
   return (
     <TaskLIstView
       tasks={getMappedTasks(tasks, hideFinished)}
@@ -58,6 +74,8 @@ const TaskListContainer = () => {
       onTaskCheck={onTaskCheck}
       switchFinishedTasksVisibility={switchFinishedTasksVisibility}
       hideFinished={hideFinished}
+      filtersInitialValues={filtersInitialValues}
+      onFiltersSubmit={onFiltersSubmit}
     />
   );
 };
