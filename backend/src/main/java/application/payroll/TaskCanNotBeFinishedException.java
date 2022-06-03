@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class TaskCanNotBeFinishedException extends RuntimeException {
 
     public TaskCanNotBeFinishedException(String name) {
-        super(String.format("Task %s can not be finished", name));
+        super(String.format("Zadanie %s nie może zostać zakończone", name));
     }
 }
