@@ -41,6 +41,7 @@ const LoginView = ({ onSubmit, navigate }) => {
 
 LoginView.propTypes = {
   onSubmit: PropTypes.func.isRequired,
+  navigate: PropTypes.func.isRequired,
 };
 
 export default LoginView;
