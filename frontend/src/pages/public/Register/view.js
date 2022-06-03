@@ -32,7 +32,7 @@ const RegisterView = ({ onSubmit, navigate }) => {
             sx={{ marginLeft: 20 }}
             onClick={() => navigate('/public/login')}
           >
-            Wróc do logowania
+            Wróć do logowania
           </Button>
         </Form>
       </Formik>
