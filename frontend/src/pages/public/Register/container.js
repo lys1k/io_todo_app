@@ -23,7 +23,7 @@ const RegisterContainer = () => {
     }
   };
 
-  return <RegisterView onSubmit={onSubmit} />;
+  return <RegisterView onSubmit={onSubmit} navigate={navigate} />;
 };
 
 export default RegisterContainer;
