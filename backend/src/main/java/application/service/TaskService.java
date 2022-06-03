@@ -82,11 +82,11 @@ public class TaskService {
                 .orElseThrow(() -> new TaskNotFoundException(id));
         if (checked) {
             task.setFinished();
-//            if (task.canBeFinished()) {
-//                task.setFinished();
-//            } else {
-//                throw new TaskCanNotBeFinishedException(id);
-//            }
+            if (task.canBeFinished()) {
+                task.setFinished();
+            } else {
+                throw new TaskCanNotBeFinishedException(task.getName());
+            }
         } else {
             task.setUnfinished();
         }
