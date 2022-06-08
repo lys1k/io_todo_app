@@ -70,5 +70,15 @@ public class TaskController {
     public List<Task> getTaskByTagName(@PathVariable String tagName) {
         return taskService.getTasksByTagName(tagName);
     }
+
+    @PutMapping("/task/{id}/alternative")
+    Task addAlternativeTask(@RequestBody Task alternativeTask, @PathVariable Long id) {
+        return taskService.addAlternativeTask(id, alternativeTask);
+    }
+
+    @DeleteMapping("/task/{id}/alternative")
+    public void deleteAlternativeTask(@RequestBody Task alternativeTask, @PathVariable Long id) {
+        taskService.deleteAlternativeTask(id, alternativeTask);
+    }
 }
 

@@ -6,10 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = Commons.TASKS)
@@ -28,6 +25,11 @@ public class Task implements Completable {
             cascade = CascadeType.ALL
     )
     private List<Task> previousTasks = new ArrayList<>();
+
+    @ManyToMany(
+            cascade = CascadeType.ALL
+    )
+    private List<Task> alternativeTasks = new ArrayList<>();
 
     @OneToMany(
             cascade = CascadeType.ALL,
@@ -176,7 +178,16 @@ public class Task implements Completable {
 
     public boolean canBeFinished() {
         for (Task previousTask : previousTasks) {
-            if (!previousTask.isFinished) {
+            boolean isPreviousTaskFinished = false;
+            if (previousTask.isFinished) {
+                continue;
+            }
+            for(Task alternativeTask : previousTask.getAlternativeTasks())
+                if (previousTask.isFinished) {
+                    isPreviousTaskFinished = true;
+                    break;
+                }
+            if(!isPreviousTaskFinished) {
                 return false;
             }
         }
@@ -189,5 +200,35 @@ public class Task implements Completable {
 
     public void removeTag(Tag tag) {
         tags.remove(tag);
+    }
+
+    public List<Task> getAlternativeTasks() {
+        return alternativeTasks;
+    }
+
+    public void addAlternativeTask(Task alternativeTask) {
+        alternativeTasks.add(alternativeTask);
+        for(Task task : alternativeTask.getAlternativeTasks()) {
+            if(!task.equals(this) && !alternativeTasks.contains(task)) {
+                alternativeTasks.add(task);
+            }
+        }
+        for(Task task : alternativeTasks) {
+            if(!task.getAlternativeTasks().contains(this)) {
+                task.getAlternativeTasks().add(this);
+            }
+            for(Task taskToAdd : alternativeTasks) {
+                if(!task.equals(taskToAdd) && !task.getAlternativeTasks().contains(taskToAdd)) {
+                    task.getAlternativeTasks().add(taskToAdd);
+                }
+            }
+        }
+    }
+
+    public void removeAlternativeTask(Task alternativeTask) {
+        for(Task task : alternativeTask.getAlternativeTasks()) {
+            task.getAlternativeTasks().remove(alternativeTask);
+        }
+        alternativeTask.getAlternativeTasks().clear();
     }
 }
