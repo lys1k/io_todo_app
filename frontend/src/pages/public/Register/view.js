@@ -7,7 +7,7 @@ import Button from 'components/Button';
 import Input from 'components/Input';
 import validation from './validation';
 
-const RegisterView = ({ onSubmit, navigate }) => {
+const RegisterView = ({ onSubmit, onBackToLogin }) => {
   const spacing = {
     marginBottom: 20,
   };
@@ -28,10 +28,7 @@ const RegisterView = ({ onSubmit, navigate }) => {
           <Input name="email" label="E-mail" sx={spacing} />
           <Input type="password" name="password" label="Hasło" sx={spacing} />
           <Button submit>Zarejestruj</Button>
-          <Button
-            sx={{ marginLeft: 20 }}
-            onClick={() => navigate('/public/login')}
-          >
+          <Button sx={{ marginLeft: 20 }} onClick={onBackToLogin}>
             Wróć do logowania
           </Button>
         </Form>
@@ -42,7 +39,7 @@ const RegisterView = ({ onSubmit, navigate }) => {
 
 RegisterView.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  navigate: PropTypes.func.isRequired,
+  onBackToLogin: PropTypes.func.isRequired,
 };
 
 export default RegisterView;

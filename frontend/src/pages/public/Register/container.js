@@ -23,7 +23,11 @@ const RegisterContainer = () => {
     }
   };
 
-  return <RegisterView onSubmit={onSubmit} navigate={navigate} />;
+  const onBackToLogin = () => {
+    navigate('/public/login');
+  };
+
+  return <RegisterView onSubmit={onSubmit} onBackToLogin={onBackToLogin} />;
 };
 
 export default RegisterContainer;
