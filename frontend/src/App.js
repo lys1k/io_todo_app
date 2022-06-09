@@ -6,7 +6,7 @@ import AppThemeProvider from 'providers/Theme';
 const App = () => {
   return (
     <AppThemeProvider>
-      <BrowserRouter>
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
         <Routing />
       </BrowserRouter>
     </AppThemeProvider>
