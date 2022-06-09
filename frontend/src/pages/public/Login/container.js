@@ -35,7 +35,11 @@ const LoginContainer = () => {
     }
   };
 
-  return <LoginView onSubmit={onSubmit} />;
+  const onRegisterClick = () => {
+    navigate('/public/register');
+  };
+
+  return <LoginView onSubmit={onSubmit} onRegisterClick={onRegisterClick} />;
 };
 
 export default LoginContainer;

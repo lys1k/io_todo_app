@@ -7,7 +7,7 @@ import Button from 'components/Button';
 import Input from 'components/Input';
 import validation from './validation';
 
-const LoginView = ({ onSubmit, onRegisterClick }) => {
+const RegisterView = ({ onSubmit, onBackToLogin }) => {
   const spacing = {
     marginBottom: 20,
   };
@@ -16,19 +16,20 @@ const LoginView = ({ onSubmit, onRegisterClick }) => {
     <Box sx={{ width: 500 }}>
       <Formik
         validationSchema={validation}
-        initialValues={{ username: '', password: '' }}
+        initialValues={{ username: '', password: '', email: '' }}
         onSubmit={onSubmit}
         enableReinitialize
       >
         <Form>
           <Typography variant="h1" sx={spacing}>
-            Logowanie
+            Rejestracja
           </Typography>
           <Input name="username" label="Nick" sx={spacing} />
+          <Input name="email" label="E-mail" sx={spacing} />
           <Input type="password" name="password" label="Hasło" sx={spacing} />
-          <Button submit>Zaloguj</Button>
-          <Button sx={{ marginLeft: 20 }} onClick={onRegisterClick}>
-            Zarejestruj
+          <Button submit>Zarejestruj</Button>
+          <Button sx={{ marginLeft: 20 }} onClick={onBackToLogin}>
+            Wróć do logowania
           </Button>
         </Form>
       </Formik>
@@ -36,9 +37,9 @@ const LoginView = ({ onSubmit, onRegisterClick }) => {
   );
 };
 
-LoginView.propTypes = {
+RegisterView.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  onRegisterClick: PropTypes.func.isRequired,
+  onBackToLogin: PropTypes.func.isRequired,
 };
 
-export default LoginView;
+export default RegisterView;

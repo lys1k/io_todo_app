@@ -7,6 +7,7 @@ import TaskAddEdit from 'pages/authorized/Task/AddEdit';
 import TaskDetails from 'pages/authorized/Task/Details';
 import TaskList from 'pages/authorized/Task/List';
 import Login from 'pages/public/Login';
+import Register from 'pages/public/Register';
 
 const DEFAULT_ROUTE = '/public/login';
 
@@ -14,7 +15,7 @@ const Routing = () => (
   <Routes>
     <Route path="public" element={<PublicLayout />}>
       <Route path="login" element={<Login />} />
-      <Route path="register" element="TODO: Register" />
+      <Route path="register" element={<Register />} />
     </Route>
     <Route path="application" element={<AuthorizedLayout />}>
       <Route path="dashboard" element="TODO: Dashboard" />
