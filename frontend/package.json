@@ -2,7 +2,7 @@
   "name": "io-task-manager",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://lys1k.github.io/io_todo_app",
+  "homepage": "http://www.kapectodoapp.tk",
   "dependencies": {
     "@emotion/react": "^11.8.1",
     "@emotion/styled": "^11.8.1",
